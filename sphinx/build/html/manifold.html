@@ -1,0 +1,238 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>mantorch.manifold &#8212; ManTorch 0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Welcome to ManTorch’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-manifold">
+<span id="mantorch-manifold"></span><h1>mantorch.manifold<a class="headerlink" href="#module-manifold" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="manifold.AbstractManifold">
+<em class="property">class </em><code class="sig-prename descclassname">manifold.</code><code class="sig-name descname">AbstractManifold</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dimensions</span></em>, <em class="sig-param"><span class="n">size</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/manifold.html#AbstractManifold"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#manifold.AbstractManifold" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.utils.parametrization.Parametrization</span></code></p>
+<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
+<dl class="py method">
+<dt id="manifold.AbstractManifold.orig_dim">
+<em class="property">property </em><code class="sig-name descname">orig_dim</code><a class="headerlink" href="#manifold.AbstractManifold.orig_dim" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="manifold.AbstractManifold.extra_repr">
+<code class="sig-name descname">extra_repr</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/manifold.html#AbstractManifold.extra_repr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#manifold.AbstractManifold.extra_repr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the extra representation of the module</p>
+<p>To print customized extra information, you should reimplement
+this method in your own modules. Both single-line and multi-line
+strings are acceptable.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="manifold.Manifold">
+<em class="property">class </em><code class="sig-prename descclassname">manifold.</code><code class="sig-name descname">Manifold</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dimensions</span></em>, <em class="sig-param"><span class="n">size</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/manifold.html#Manifold"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#manifold.Manifold" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#manifold.AbstractManifold" title="manifold.AbstractManifold"><code class="xref py py-class docutils literal notranslate"><span class="pre">manifold.AbstractManifold</span></code></a></p>
+<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
+<dl class="py method">
+<dt id="manifold.Manifold.trivialization">
+<code class="sig-name descname">trivialization</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">B</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/manifold.html#Manifold.trivialization"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#manifold.Manifold.trivialization" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parametrizes the manifold in terms of a tangent space
+:param X: A tensor, usually living in T_B M
+:type X: torch.nn.Tensor
+:param B: Point on M at whose tangent space we are trivializing
+:type B: torch.nn.Tensor</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A tensor on the manifold</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>tensor (torch.nn.Tensor)</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function should be surjective, otherwise not all the manifold
+will be explored</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="manifold.Manifold.forward">
+<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/manifold.html#Manifold.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#manifold.Manifold.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines the computation performed at every call.</p>
+<p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Although the recipe for forward pass needs to be defined within
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+instead of this since the former takes care of running the
+registered hooks while the latter silently ignores them.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="manifold.update_base">
+<code class="sig-prename descclassname">manifold.</code><code class="sig-name descname">update_base</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">module</span></em>, <em class="sig-param"><span class="n">tensor_name</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/manifold.html#update_base"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#manifold.update_base" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt id="manifold.Fibration">
+<em class="property">class </em><code class="sig-prename descclassname">manifold.</code><code class="sig-name descname">Fibration</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dimensions</span></em>, <em class="sig-param"><span class="n">size</span></em>, <em class="sig-param"><span class="n">total_space</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/manifold.html#Fibration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#manifold.Fibration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#manifold.AbstractManifold" title="manifold.AbstractManifold"><code class="xref py py-class docutils literal notranslate"><span class="pre">manifold.AbstractManifold</span></code></a></p>
+<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
+<dl class="py method">
+<dt id="manifold.Fibration.embedding">
+<code class="sig-name descname">embedding</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/manifold.html#Fibration.embedding"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#manifold.Fibration.embedding" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="manifold.Fibration.fibration">
+<code class="sig-name descname">fibration</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/manifold.html#Fibration.fibration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#manifold.Fibration.fibration" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="manifold.Fibration.forward">
+<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/manifold.html#Fibration.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#manifold.Fibration.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines the computation performed at every call.</p>
+<p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Although the recipe for forward pass needs to be defined within
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+instead of this since the former takes care of running the
+registered hooks while the latter silently ignores them.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="manifold.Fibration.total_space">
+<em class="property">property </em><code class="sig-name descname">total_space</code><a class="headerlink" href="#manifold.Fibration.total_space" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="manifold.Fibration.base">
+<em class="property">property </em><code class="sig-name descname">base</code><a class="headerlink" href="#manifold.Fibration.base" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="manifold.ProductManifold">
+<em class="property">class </em><code class="sig-prename descclassname">manifold.</code><code class="sig-name descname">ProductManifold</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">manifolds</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/manifold.html#ProductManifold"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#manifold.ProductManifold" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#manifold.AbstractManifold" title="manifold.AbstractManifold"><code class="xref py py-class docutils literal notranslate"><span class="pre">manifold.AbstractManifold</span></code></a></p>
+<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
+<dl class="py method">
+<dt id="manifold.ProductManifold.forward">
+<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Xs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/manifold.html#ProductManifold.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#manifold.ProductManifold.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines the computation performed at every call.</p>
+<p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Although the recipe for forward pass needs to be defined within
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+instead of this since the former takes care of running the
+registered hooks while the latter silently ignores them.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">ManTorch</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">mantorch.manifold</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to ManTorch’s documentation!</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+      
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/manifold.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

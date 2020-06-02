@@ -30,9 +30,13 @@ DEV_REQUIRES = TEST_REQUIRES + ["black", "flake8", "sphinx", "sphinx-autodoc-typ
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
+# get version string from module
+with open(os.path.join(os.path.dirname(__file__), "botorch/__init__.py"), "r") as f:
+    version = re.search(r"__version__ = ['\"]([^'\"]*)['\"]", f.read(), re.M).group(1)
+
 setup(
     name="mantorch",
-    version="0.1.0",
+    version=version,
     description="Constrained Optimization in Pytorch",
     author="Mario Lezcano Casado",
     license="MIT",

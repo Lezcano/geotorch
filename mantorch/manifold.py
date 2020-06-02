@@ -1,9 +1,7 @@
-import itertools
-from collections.abc import Iterable
-
 import torch
 import torch.nn.utils.parametrization as P
 import torch.nn as nn
+
 
 class AbstractManifold(P.Parametrization):
     def __init__(self, dimensions, size):
@@ -23,7 +21,8 @@ class AbstractManifold(P.Parametrization):
                 self.n, self.k = self.k, self.n
             self.dim = (self.n, self.k)
         elif self.dimensions >= 3:
-            self.dim = tuple(size[-(i+1)] for i in reversed(range(self.dimensions)))
+            self.dim = tuple(size[-(i + 1)]
+                             for i in reversed(range(self.dimensions)))
         else:
             raise ValueError("Range {} not supported. Expected a positive integer or "
                              "`product`".format(self.dimensions))
@@ -55,8 +54,8 @@ class Manifold(AbstractManifold):
         r"""
         Parametrizes the manifold in terms of a tangent space
         Args:
-            X (torch.nn.Tensor): A tensor, usually living in T_B M
-            B (torch.nn.Tensor): Point on M at whose tangent space we are trivializing
+            X (torch.nn.Tensor): A tensor in $T_B M$
+            B (torch.nn.Tensor): Point on $M$ at whose tangent space we are trivializing
         Returns:
             tensor (torch.nn.Tensor): A tensor on the manifold
         Note:
@@ -75,7 +74,7 @@ class Manifold(AbstractManifold):
 
 
 def update_base(module, tensor_name):
-    if not is_parametrized(module, tensor_name):
+    if not P.is_parametrized(module, tensor_name):
         raise ValueError("Tensor '{}' in module '{}' is not parametrized."
                          .format(module, tensor_name))
     orig = getattr(module, tensor_name + "_orig")
@@ -108,8 +107,8 @@ class Fibration(AbstractManifold):
             f_embedding = lambda _, X: self.embedding(X.transpose(-2, -1))
 
         Embedding = type("Embedding" + self.__class__.__name__,
-                        (P.Parametrization,),
-                        {"forward": f_embedding})
+                         (P.Parametrization,),
+                         {"forward": f_embedding})
 
         total_space.chain(Embedding())
         self.chain(total_space)
@@ -135,6 +134,7 @@ class Fibration(AbstractManifold):
     def base(self):
         return self.total_space.base
 
+
 class ProductManifold(AbstractManifold):
     def __init__(self, manifolds):
         super().__init__(dimensions="product",
@@ -148,7 +148,6 @@ class ProductManifold(AbstractManifold):
                 raise TypeError("Expecting all elements in a ProductManifold to be "
                                 "mantorch.AbstractManifold. Found a {}."
                                 .format(type(mani).__name__))
-
         return tuple(m.dim for m in manifolds)
 
     def forward(self, Xs):
